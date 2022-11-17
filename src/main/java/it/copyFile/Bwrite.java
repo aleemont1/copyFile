@@ -10,7 +10,7 @@ class Bwrite extends Thread {
   private final BlockingQueue<byte[]> buffer; //istanzio una coda circolare bloccante
   private final String file; //nome del file di output
   
-  private static final int BUFFER_LEN = 32; //Leggo 4 byte alla volta (la JVM è a 32 bit, riesce quindi a operare con 4byte ogni ciclo di clock)
+  private static final int BUFFER_LEN = 8192; //Leggo 32 byte alla volta
 
   public Bwrite(BlockingQueue<byte[]> buffer, String file) {
     this.buffer = buffer;
@@ -26,7 +26,7 @@ class Bwrite extends Thread {
         try {
           b = buffer.take(); //inserisco la testa del buffer in b
           fout.write(b); //scrivo b sul file
-          System.out.println("Written: " + new String(b, StandardCharsets.UTF_8));
+          System.out.println("Buffer written: " + b + " | " + new String(b, StandardCharsets.UTF_8) + " | ");
           if (b.length < BUFFER_LEN) {
             fout.close();
             System.exit(0);
