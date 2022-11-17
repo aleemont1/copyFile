@@ -8,4 +8,4 @@ build
 *.kts
 src/main/java/it/copyFile/it
 *gradle*
-!.gitignore
+
